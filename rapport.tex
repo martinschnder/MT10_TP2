@@ -42,15 +42,156 @@
     \pagebreak
 
     \section{Préliminaire : \texttt{SageMath} et les nombres entiers}
+    \textbf{Division euclidienne :}
+    On utilise \texttt{divmod(x,y)} pour la division euclidienne de x par y, qui renvoie un couple $(div, mod)$ tel que :
+    \[div*y + mod = x\]
+
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
         \rowcolor{gray}
         \texttt{In}
         & 
-        \texttt{C4 = groups.permutation.Cyclic(4)}
+        \texttt{divmod(15,4)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{(3,3)}
         \\
         \hline
     \end{tabularx}
+    \bigbreak\bigbreak
+
+    \textbf{Algorithme d'Euclide :}
+    On utilise \texttt{gcd(a,b)} pour l'algorithme d'Euclide, qui renvoie le plus grand diviseur commun (PGCD) de a et b. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{gcd(15,20)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{5}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak\bigbreak
+
+    \textbf{Algorithme d'Euclide étendu :}
+    On utilise \texttt{xgcd(a,b)} pour l'algorithme d'Euclide étendu de a et b, qui renvoie un triple $(g, s, t)$ tel que :
+    \[g = s*a + t*b = PGCD(a,b)\]
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{xgcd(15,20)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{(5,-1,-1)}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak\bigbreak
+
+    \textbf{Nombres premiers :} \bigbreak
+    
+    On utilise \texttt{is\_prime(x)} qui retourne \texttt{True} si le nombre est premier, \texttt{False} sinon. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{is\_prime(15)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{False}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    On utilise \texttt{prime\_range(x)} qui retourne la liste des nombres premiers strictement inférieurs à \texttt{x}. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{prime\_range(15)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{[2, 3, 5, 7, 11, 13]}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    On utilise \texttt{next\_prime(x)} qui retourne le premier nombre premier strictement supérieur à \texttt{x}. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{next\_prime(17)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{19}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    On utilise \texttt{factor(x)} qui retourne la décomposition de \texttt{x} en facteurs de nombres premiers. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{factor(150)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{2 * 3 * 5$^ 2$ }
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    On utilise \texttt{prime\_pi(x)} qui compte combien de nombres premiers sont inférieurs où égaux à \texttt{x}. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{prime\_pi(x)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{6}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
 
     \section{Nombres premiers}
     \subsection{Sur la répartition des nombres premiers}
