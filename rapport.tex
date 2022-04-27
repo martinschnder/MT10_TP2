@@ -3,6 +3,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{colortbl}
 
 \title{Rapport MT10 - TP2 : Autour du RSA}
 \author{Martin Schneider, Océane Bordeau}
@@ -11,6 +13,7 @@
 \setlength{\parindent}{0pt}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{gray}{rgb}{0.8,0.8,0.8}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{codeblue}{rgb}{0,0,255}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
@@ -39,6 +42,15 @@
     \pagebreak
 
     \section{Préliminaire : \texttt{SageMath} et les nombres entiers}
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{C4 = groups.permutation.Cyclic(4)}
+        \\
+        \hline
+    \end{tabularx}
 
     \section{Nombres premiers}
     \subsection{Sur la répartition des nombres premiers}
