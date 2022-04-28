@@ -1,6 +1,8 @@
 \documentclass[titlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{caption} 
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{tabularx}
@@ -195,6 +197,27 @@
 
     \section{Nombres premiers}
     \subsection{Sur la répartition des nombres premiers}
+    \bigbreak
+    L’objectif est d’observer le comportement de suite $u_n = \pi(n)\frac{\ln n}{n}$, pour des n les plus grands possibles.
+    \bigbreak
+    1. Jusqu'à $10^{13}$, la commande \texttt{prime\_pi} met moins d'une dizaine de seconde à s'éxécuter, pour $10^{14}$, l'éxécution prend envirion 55 secondes. La limite de la minute est atteinte pour $10^{15}$.
+    \bigbreak
+    2. $\pi (n)$ désigne les nombres premiers $\leq n$.\newline
+    Traçons sur un même graphique $n \mapsto \pi (n)$ et $n \mapsto \frac{n}{\ln n}$ :  
+    \begin{center}
+        \includegraphics[scale=0.5]{Ressources/2022-04-27-10:20:27-screenshot.png}
+        \captionof{figure}{}
+        \end{center}
+    \bigbreak
+    3. Traçons $u_n$ en fonction de $n$ : 
+    \begin{center}
+        \includegraphics[scale=0.5]{Ressources/2022-04-27-10:20:31-screenshot.png}
+        \captionof{figure}{}
+    \end{center}
+    Comme annoncé par le théorème des nombres premiers, la suite $u_n$ semble tendre vers $1$.
+    \bigbreak
+
+
 
     \subsection{Nombres de Fermat}
 
