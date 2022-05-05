@@ -33,3 +33,21 @@ def dicho_rec_mod(x, n, N):
         if (n % 2 == 0):
             return dicho_rec(x*x, n/2)
         else: return x*dicho_rec(x*x, (n-1)/2)
+        
+def factorisationRSA (N):
+    L0 = 1
+    u = 0
+    n = L0+u
+    L = 1
+    R0 = ceil(sqrt(L*N))
+    R = R0 + u
+    S = sqrt(R^2-L*N)
+    while floor(S) != S :
+        for L in range(L0, n+1) :
+            u = n-L
+            R0 = ceil(sqrt(L*N))
+            R = R0+u
+            S = sqrt(R^2-L*N)
+        n = n+1
+        L0 = L
+    print("L = ", L, "\nPCGD(N,R-S) = ", gcd(N,int(R-S)), "\nPGCD(N,R+S) = ", gcd(N,int(R+S)))
