@@ -232,4 +232,68 @@
 
     \subsection{Algorithme d'exponentiation modulaire}
 
+    \section{Cryptosystème RSA}
+    \subsection{Codage et décodage d'un message}
+
+    \subsection{Génération de clés RSA}
+
+    \subsection{Fonctions de chiffrement et déchiffrement RSA}
+
+    \subsection{Signature avec RSA}
+    \subsubsection{Protocole 1}
+    \subsubsection{Protocole 2}
+
+    \section{Factorisation de clefs RSA}
+    Pour chercher une factorisation d'une clé RSA, le programme suivant suit la méthode de Fermat modifiée pour factoriser $N = pq$.
+    On cherche une écriture du type $LN = R^2 - S^2$ où $L,R,S$ sont des entiers positifs tels que $L$ et $S$ petits.
+    Si cette écriture existe, on peut trouver les facteurs $p$ et $q$ (non triviaux) en calculant $pgcd(N,R-S)$ et $ pgcd(N,R+S)$.
+
+    \lstinputlisting[language=Python, firstline=37, lastline=53]{sourceCode.py}
+
+    Pour des clés RSA relativement petites, on trouve rapidement la factorisation comme le montre l'exemple ci-dessous avec une clé RSA de 50 bits. \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{factorisationRSA(645150365822089)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{L =  3477 \newline
+        PCGD(N,R-S) =  24552379 \newline
+        PGCD(N,R+S) =  26276491}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    Si cette écriture du type $LN = R^2 - S^2$ existe, on dit que $N$ est périlleux, on peut bien évidemment trouver des clés RSA non périlleuses comme celle ci-dessous avec une clé de longueur 500 bits.\bigbreak
+    
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{factorisationRSA(103077048898751646811845904379690253
+        91827158046114929907021555374862351383356881742893451
+        03743257562103172714870402164525935411301652888244783
+        0478777256189)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{L =  3477 \newline
+        PCGD(N,R-S) =  1 \newline
+        PGCD(N,R+S) =  1}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+    
+
+    \section{Test de primalité probabilistes}
+
 \end{document}
