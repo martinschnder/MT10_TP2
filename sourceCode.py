@@ -103,20 +103,18 @@ def protocole1(message, signature, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db 
         print("Veuillez rentrez une valeur plus petite pour Nc")
         return 1
     if da and eb:
-        # chiffrage
         m1c = numerise_safe(message, 3 * Nc)
         s1c = numerise_safe(signature, 3 * Nc)
         m2c = encode_rsa(m1c, eb, Nb)
         s2c = encode_rsa(s1c, da, Na)
-        print("Message et signature cryptés")
+        print("Message et signature cryptes")
         return(m2c, s2c)
     if db and ea:
-        # déchiffrage
         m1c = decode_rsa(message, db, Nb)
         s1c = decode_rsa(signature, ea, Na)
         m1 = alphabetise_safe(m1c, 3 * Nc)
         s1 = alphabetise_safe(s1c, 3 * Nc)
-        print("Message et signature décryptés")
+        print("Message et signature decryptes")
         print(m1, s1)
         return(m1, s1)
         
