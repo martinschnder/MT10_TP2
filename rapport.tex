@@ -271,7 +271,7 @@
     On cherche une écriture du type $LN = R^2 - S^2$ où $L,R,S$ sont des entiers positifs tels que $L$ et $S$ petits.
     Si cette écriture existe, on peut trouver les facteurs $p$ et $q$ (non triviaux) en calculant $pgcd(N,R-S)$ et $ pgcd(N,R+S)$.
 
-    \lstinputlisting[language=Python, firstline=23, lastline=139]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=121, lastline=137]{sourceCode.py}
 
     Pour des clés RSA relativement petites, on trouve rapidement la factorisation comme le montre l'exemple ci-dessous avec une clé RSA de 50 bits. \bigbreak
 
@@ -285,14 +285,13 @@
         \hline
         \texttt{Out}
         &
-        \texttt{L =  3477 \newline
-        PCGD(N,R-S) =  24552379 \newline
+        \texttt{PCGD(N,R-S) =  24552379 \newline
         PGCD(N,R+S) =  26276491}
         \\
         \hline
     \end{tabularx}
     \bigbreak
-
+    
     Si cette écriture du type $LN = R^2 - S^2$ existe, on dit que $N$ est périlleux, on peut bien évidemment trouver des clés RSA non périlleuses comme celle ci-dessous avec une clé de longueur 500 bits.\bigbreak
     
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
@@ -308,8 +307,7 @@
         \hline
         \texttt{Out}
         &
-        \texttt{L =  3477 \newline
-        PCGD(N,R-S) =  1 \newline
+        \texttt{PCGD(N,R-S) =  1 \newline
         PGCD(N,R+S) =  1}
         \\
         \hline
@@ -318,5 +316,89 @@
     
 
     \section{Test de primalité probabilistes}
+    On sait d'après le petit théorème de Fermat que si on trouve un entier $a \in \lbrack1,n-1\rbrack$
+    tel que $a^{n-1} \neq 1 \lbrack n \rbrack$ alors on est sûr que $n$ n'est pas premier. 
+    Le programme suivant tire aléatoirement $l$ valeurs (donné en paramètres) de $a$, 
+    si le test de Fermat échoue alors $n$ est composé, et s'il réussit alors $n$ est premier ou de Carmichaël.
+
+    \lstinputlisting[language=Python, firstline=139, lastline=144]{sourceCode.py}
+
+    Par exemple : \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{testPrimaliteFermat(2316845,200)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{False}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{is\_prime(2316845)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{False}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    Le plus petit entier composé qui passe le test de Fermat est 561, le plus petit entier de Carmichaël.
+
+    On améliore le test avec le critère de Miller-Rabin.
+
+    \lstinputlisting[language=Python, firstline=146, lastline=166]{sourceCode.py}
+
+    Cette fois-ci 561 ne passe pas le test de Miller-Rabin : \bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{testPrimaliteFermat(561,5)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{True}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{is\_prime(561)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{False}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{testPrimaliteMillerRabin(561,5)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{False}
+        \\
+        \hline
+        
+    \end{tabularx}
+    \bigbreak
+
+    Nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin.
 
 \end{document}
