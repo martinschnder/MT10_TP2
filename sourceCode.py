@@ -164,4 +164,33 @@ def factorisationRSA (N):
             S = sqrt(R^2-L*N)
         n = n+1
         L0 = L
-    print("L = ", L, "\nPCGD(N,R-S) = ", gcd(N,int(R-S)), "\nPGCD(N,R+S) = ", gcd(N,int(R+S)))
+    print("PCGD(N,R-S) = ", gcd(N,int(R-S)), "\nPGCD(N,R+S) = ", gcd(N,int(R+S)))
+    
+def testPrimaliteFermat(n,l) :
+    for _ in range(l):
+        a = randint(1,n-1)
+        if pow(a,n-1,n) != 1:
+            return False
+    return True
+
+def testPrimaliteMillerRabin(n, l):
+    if n == 2 or n == 3 :
+        return True
+    if n % 2 == 0:
+        return False
+    r, s = 0, n - 1
+    while s % 2 == 0:
+        r += 1
+        s //= 2
+    for _ in range(l):
+        a = randint(2, n - 1)     
+        d = pow(a, s, n)            
+        if d == 1 or d == n - 1:
+            continue                
+        for _ in range(r - 1):      
+            d = pow(d, 2, n)        
+            if d == n - 1:
+                break               
+        else:
+            return False            
+    return True  
