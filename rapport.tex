@@ -244,10 +244,10 @@
     \subsection{Codage et décodage d'un message}
     La permière étape est de définir deux méthodes capables de traduire un message alphabétique en une suite d'entiers compris entre $0$ et $N-1$ (N étant le module de notre clé RSA).
     Pour cela, on crée la fonction \texttt{numerise()} qui convertit la chaîne alphabétique en une chaine binaire grâce au codage ASCII. Un caractère étant codé sur un octet, cette chaîne fait 8 fois la longuer de la chaîne initiale.
-    Il s'agit ensuite de diviser cette chaine en "paquets" de bits dont la taille est a adaptée en fonction de $N$.
+    Il s'agit ensuite de diviser cette chaine en "paquets" de bits dont la taille est à adapter en fonction de $N$.
     Pour que la valeurs des paquets ne dépasse pas $N-1$, la taille de ces dernier ne peut pas dépasser $ln(N)/ln(2)$. Pour un soucis d'intégrité de la transformation, on va chercher la taille la plus grande, inférieur à $ln(N)/ln(2)$, et qui divise la longueur de la chaine binaire obtenue.
     Ainsi, tous les paquets auront la même taille. On utilise pour cela la fonction \texttt{chooseSize()} qui renvoie la taille idéale des paquets.
-    Une la chaine de bits divisée, il suffit de retraduire ces paquets de bits en entier (qui par construction seront inférieurs à $N-1$).
+    Une fois la chaine de bits divisée, il suffit de retraduire ces paquets de bits en entier (qui par construction seront inférieurs à $N-1$).
     La fonction retourne alors un object \texttt{list} contenant les entiers recherchés.
 
     \lstinputlisting[language=Python, firstline=42, lastline=52]{sourceCode.py}
@@ -259,6 +259,9 @@
     Dans chaque fonction, certaines rectifications sont nécéssaires pour assurer la bijectivité de l'encodage et l'intégrité du message codé. Par exemple, nous avons définit notre propre fonctioon \texttt{toBin()}, plus sûre que la fonction \texttt{bin()} de la librairie Python. 
 
     \subsection{Génération de clés RSA}
+    Pour la génération des clés, on définit la fonction \texttt{cleRSA()}. Cette dernière fait appel à différentes fonction pour définir les nombres $p$, $q$, $e$, et calculer $d$.
+
+    \lstinputlisting[language=Python, firstline=71, lastline=102]{sourceCode.py}
 
     \subsection{Fonctions de chiffrement et déchiffrement RSA}
 
@@ -271,7 +274,7 @@
     On cherche une écriture du type $LN = R^2 - S^2$ où $L,R,S$ sont des entiers positifs tels que $L$ et $S$ petits.
     Si cette écriture existe, on peut trouver les facteurs $p$ et $q$ (non triviaux) en calculant $pgcd(N,R-S)$ et $ pgcd(N,R+S)$.
 
-    \lstinputlisting[language=Python, firstline=23, lastline=139]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=121, lastline=137]{sourceCode.py}
 
     Pour des clés RSA relativement petites, on trouve rapidement la factorisation comme le montre l'exemple ci-dessous avec une clé RSA de 50 bits. \bigbreak
 
@@ -300,10 +303,10 @@
         \rowcolor{gray}
         \texttt{In}
         & 
-        \texttt{factorisationRSA(103077048898751646811845904379690253
-        91827158046114929907021555374862351383356881742893451
-        03743257562103172714870402164525935411301652888244783
-        0478777256189)}
+        \texttt{factorisationRSA(103077048898751646811845904379690253}
+        \texttt{91827158046114929907021555374862351383356881742893451}
+        \texttt{03743257562103172714870402164525935411301652888244783}
+        \texttt{0478777256189)}
         \\
         \hline
         \texttt{Out}

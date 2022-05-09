@@ -72,7 +72,7 @@ import random
 def cleRSA (m):
     result = {}
     result["p"] = chooseP(m)
-    result["q"] = chooseQ(m)
+    result["q"] = chooseQ(m, result["p"])
     result["e"] = chooseE(result["p"], result["q"])
     result["N"] = result["p"]*result["q"]
     result["d"] = inv_modulo(result["e"], (result["p"]-1)*(result["q"]-1))
@@ -88,8 +88,11 @@ def inv_modulo(x, m):
 def chooseP(m):
     return randPremier(int((1 / sqrt(2)) * pow(2,m/2)), int(pow(2,m/2)))
 
-def chooseQ(m):
-    return randPremier(int(1/sqrt(2)*pow(2,m/2)),int(pow(2,m/2)))
+def chooseQ(m, p):
+    while True:
+        q = randPremier(int(1/sqrt(2)*pow(2,m/2)),int(pow(2,m/2)))
+        if q != p:
+            return q
 
 def chooseE(p, q):
     phi = (p-1)*(q-1)
@@ -117,7 +120,34 @@ def protocole1(message, signature, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db 
         print("Message et signature decryptes")
         print(m1, s1)
         return(m1, s1)
-        
+
+def protocole2(message, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db = 0):
+    if 3 * Nc >= Na or 3 * Nc >= Nb:
+        print("Veuillez rentrez une valeur plus petite pour Nc")
+        return 1
+    if Na > Nb:
+        if da and eb:
+            m1c = numerise_safe(message, 3 * Nc)
+            m2c = encode_rsa(m1c, eb, Nb)
+            m3c = encode_rsa(m2c, da, Nb)
+            return m3c
+        if db and ea:
+            m2c = decode_rsa(message, ea, Na)
+            m1c = decode_rsa(m2c, db, Nb)
+            m1 = alphabetise_safe(m1c, 3* Nc)
+            return m1
+    if Na < Nb:
+        if da and eb:
+            m1c = numerise_safe(message, 3 * Nc)
+            m2c = encode_rsa(m1c, da, Nb)
+            m3c = encode_rsa(m2c, eb, Nb)
+            return m3c
+        if db and ea:
+            m2c = decode_rsa(message, db, Nb)
+            m1c = decode_rsa(m1c, ea, Na)
+            m1 = alphabetise_safe(m1c, 3* Nc)
+            return m1
+      
 def factorisationRSA (N):
     L0 = 1
     u = 0
