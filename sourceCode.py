@@ -28,11 +28,11 @@ def dicho_rec(x, n):
         else: return x*dicho_rec(x*x, (n-1)/2)
 
 def dicho_rec_mod(x, n, N):
-    if n == 1: return (mod(x, N))
+    if n == 1: return mod(x,N)
     else: 
         if (n % 2 == 0):
-            return dicho_rec(x*x, n/2)
-        else: return x*dicho_rec(x*x, (n-1)/2)
+            return dicho_rec_mod(x*x, n/2, N)
+        else: return x*dicho_rec_mod(x*x, (n-1)/2, N)
 
 def chooseSize(l, N):
     for size in reversed(range(floor(ln(N)/ln(2) + 1))):
@@ -194,3 +194,38 @@ def testPrimaliteMillerRabin(n, l):
         else:
             return False            
     return True  
+
+
+mersenne=[]
+for p in prime_range(258):
+    mersenne.append(pow(2,p)-1)
+    
+for index, value in enumerate(mersenne):
+    if (is_prime(value)):
+        print(prime_range(258)[index], end=",")
+        
+        
+def is_parfait(n, p):
+    if (pow(2,p-1)*(pow(2,p)-1))==n:
+        return True
+    else: 
+        return False
+    
+p=0
+for index, value in enumerate(mersenne):
+    if (is_prime(value)):
+        p = prime_range(258)[index]
+        print("Mp premier pour p =", p)
+        print("parfait ?", is_parfait(pow(2,p-1)*value,p))
+        
+def dicho_iteratif(x, n):
+    y = 1
+    while (n > 0):
+        if (n%2 == 0):
+            x = x*x
+            n = n/2
+        else: 
+            y = y*x
+            x = x*x
+            n = (n-1)/2
+    return y
