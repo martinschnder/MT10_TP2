@@ -236,6 +236,122 @@
     On trouve alors que celle-ci est vérifiée jusquà 4 mais à partir de $n=5$, $2^{(2^n)}+1$ n'est pas premier.
 
     \subsection{Nombres de Mersenne}
+    1. La liste des nombres premiers inférieurs ou égaux à 257 est la suivante, il y en a 55.\bigbreak
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{prime\_range(258)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,\newline
+        73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,\newline
+        151,157,163,167,173,179,181,191,193,197199,211,223,227,\newline
+        229,233,239,241,251,257]}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{prime\_pi(257)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{55}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+    On forme la liste des nombres de Mersenne correspondants.
+
+    \lstinputlisting[language=Python, firstline=199, lastline=201]{sourceCode.py}
+
+    2. Parmi la liste précédente, on affiche seulement les valeurs de $p$ pour lesquelles $M_p$ est premier :
+
+    \lstinputlisting[language=Python, firstline=203, lastline=205]{sourceCode.py}
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \texttt{Out}
+        &
+        \texttt{2,3,5,7,13,17,19,31,61,89,107,127}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    Mersenne s'est trompé, $M_p$ n'est pas premier pour $p = 67, 257$, mais l'est pour $p = 61, 89, 107$.\bigbreak
+
+    3. On décompose $M_{41}$ et $M_{47}$ en facteurs premiers.\bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{factor(pow(2,41)-1)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{13367 * 164511353}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{factor(pow(2,47)-1)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{2351 * 4513 * 13264529}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    Euler s'est donc bien trompé, $M_{41}$ et $M_{47}$ ne sont pas premiers.\bigbreak
+
+    4. Pour les nombres de Mersenne $M_p$ premiers inférieurs ou égaux à 257, on vérifie que $n = 2^{p-1}M_p$ est parfait grâce aux fonctions suivantes.
+    \lstinputlisting[language=Python, firstline=208, lastline=219]{sourceCode.py}
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \texttt{Out}
+        &
+        \texttt{Mp premier pour p = 2\newline
+        parfait ? True\newline
+        Mp premier pour p = 3\newline
+        parfait ? True\newline
+        Mp premier pour p = 5\newline
+        parfait ? True\newline
+        Mp premier pour p = 7\newline
+        parfait ? True\newline
+        Mp premier pour p = 13\newline
+        parfait ? True\newline
+        Mp premier pour p = 17\newline
+        parfait ? True\newline
+        Mp premier pour p = 19\newline
+        parfait ? True\newline
+        Mp premier pour p = 31\newline
+        parfait ? True\newline
+        Mp premier pour p = 61\newline
+        parfait ? True\newline
+        Mp premier pour p = 89\newline
+        parfait ? True\newline
+        Mp premier pour p = 107\newline
+        parfait ? True\newline
+        Mp premier pour p = 127\newline
+        parfait ? True}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
 
     \subsection{Un test de primalité pour les nombres de Mersenne}
 
@@ -264,9 +380,42 @@
 
     \lstinputlisting[language=Python, firstline=23, lastline=28]{sourceCode.py}
 
-    \lstinputlisting[language=Python, firstline=30, lastline=35]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=221, lastline=231]{sourceCode.py}
 
     \subsection{Algorithme d'exponentiation modulaire}
+    On adapte l'algorithme récursif prédécent pour calculer $x^n [N]$.
+
+    \lstinputlisting[language=Python, firstline=30, lastline=35]{sourceCode.py}
+
+    On compare avec \texttt{power\_mod} :\bigbreak
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{dicho\_rec\_mod(15,1550,2410)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{225}
+        \\
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{power\_mod(15,1550,2410)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{225}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
     \section{Cryptosystème RSA}
     \subsection{Codage et décodage d'un message}
     La permière étape est de définir deux méthodes capables de traduire un message alphabétique en une suite d'entiers compris entre $0$ et $N-1$ (N étant le module de notre clé RSA).
@@ -346,6 +495,10 @@
 
     \lstinputlisting[language=Python, firstline=139, lastline=144]{sourceCode.py}
 
+    On choisit aléatoirement $l$ valeurs de $a$, si le test de Fermat échoue sur une de ces valeurs de $a$ alors
+    $n$ est composé. Pour un nombre de Carmichaël $n$, plus on choisit un $l$ élevé, plus on a de chance que le test
+    de Fermat échoue et nous renvoie que $n$ est composé, car il suffit que le test échoue une seule fois sur les $l$ 
+    valeurs de $a$. \bigbreak
     Par exemple : \bigbreak
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
@@ -376,6 +529,10 @@
     \bigbreak
 
     Le plus petit entier composé qui passe le test de Fermat est 561, le plus petit entier de Carmichaël.
+    Pour 2 valeurs de $a$, 561 passe presque immédiatement le test de Fermat mais pour 5 valeurs de $a$, 
+    de temps en temps 561 ne passe pas le test de Fermat et nous renvoie $False$ car il suffit qu'une seule
+    des 5 valeurs échoue le test de Fermat pour que la fonction nous renvoie $False$. Mais comme ces $a$
+    sont aléatoires, parfois 561 réussit à passer le test.\newline
 
     On améliore le test avec le critère de Miller-Rabin.
 
@@ -422,6 +579,6 @@
     \end{tabularx}
     \bigbreak
 
-    Nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin.
+    Pour 5 valeurs de $a$, nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin.
 
 \end{document}
