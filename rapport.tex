@@ -218,10 +218,37 @@
     \bigbreak
 
     \subsection{Nombres de Fermat}
+    A l'aide d'une simple boucle, vérifions la conjecture de Fermat pour n allant de 1 à 9.
+
+    \lstinputlisting[language=Python, firstline=198, lastline=200]{sourceCode.py}
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \texttt{Out} & \texttt{5 4294967297} \\
+        & \texttt{6 18446744073709551617} \\
+        & \texttt{7 340282366920938463463374607431768211457} \\
+        & \texttt{8 1157920892373161954235709850086879078532...} \\
+        & \texttt{9 1340780792994259709957402499820584612747...} \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
+    On trouve alors que celle-ci est vérifiée jusquà 4 mais à partir de $n=5$, $2^{(2^n)}+1$ n'est pas premier.
 
     \subsection{Nombres de Mersenne}
 
     \subsection{Un test de primalité pour les nombres de Mersenne}
+
+    Le théorème de Lucas permet de définir un test de primalité sur les nombre de Mersenne.
+    Si on entre un entier $s$, l'algorithme retourne la primalite du nombre $M(s)$ soit $2^s -1$.
+
+    \lstinputlisting[language=Python, firstline=1, lastline=11]{sourceCode.py}
+
+    Utilisons cet algorithme pour trouver le plus grand nombre de Mersenne premier possible en moins de 5 minutes:
+
+    - En utilisant l'algorithme de Lucas, on peut trouve au maximum que $M(31)$ est premier (avant de tuer le kernel Sage).
+
+    - En utilisant la fonction SageMath \texttt{is\_prime()}, on trouve au maximum que $M(3217)$ est premier.
 
     \section{Algorithmes d'exponentiation}
     \subsection{Naïf itératif et naïf récursif}
@@ -299,20 +326,13 @@
     
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
-        \rowcolor{gray}
-        \texttt{In}
-        & 
-        \texttt{factorisationRSA(103077048898751646811845904379690253}
-        \texttt{91827158046114929907021555374862351383356881742893451}
-        \texttt{03743257562103172714870402164525935411301652888244783}
-        \texttt{0478777256189)}
-        \\
+        \rowcolor{gray} \texttt{In} & \texttt{factorisationRSA(103077048898751646811845904379690253} \\
+        \rowcolor{gray} & \texttt{91827158046114929907021555374862351383356881742893451} \\
+        \rowcolor{gray} & \texttt{03743257562103172714870402164525935411301652888244783} \\
+        \rowcolor{gray} & \texttt{0478777256189)} \\
         \hline
-        \texttt{Out}
-        &
-        \texttt{PCGD(N,R-S) =  1 \newline
-        PGCD(N,R+S) =  1}
-        \\
+        \texttt{Out} & \texttt{PCGD(N,R-S) =  1} \\
+        & \texttt{PGCD(N,R+S) =  1} \\
         \hline
     \end{tabularx}
     \bigbreak

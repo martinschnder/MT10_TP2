@@ -2,13 +2,13 @@ def lucas(s):
     n = pow(2, s) - 1
     if s % 2 == 0:
         print("Veuillez entrer un nombre impair")
-        return false
+        return False
     L = 4
     for i in range(s - 2):
         L = pow(L, 2) - 2
     if (L % n == 0):
-        return true
-    else: return false
+        return True
+    else: return False
 
 def naif_iter(x, n):
     res = 1
@@ -193,4 +193,8 @@ def testPrimaliteMillerRabin(n, l):
                 break               
         else:
             return False            
-    return True  
+    return True
+
+for n in range(10):
+    if (not is_prime(pow(2, 2^n) + 1)):
+        print(n, pow(2, 2^n ) + 1)
