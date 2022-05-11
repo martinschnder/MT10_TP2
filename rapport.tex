@@ -290,7 +290,7 @@
     \end{tabularx}
     \bigbreak
 
-    Mersenne s'est trompé, $M_p$ n'est pas premier pour $p = 67, 257$, mais l'est pour $p = 61, 89, 107$.\bigbreak
+    Mersenne s'est trompé, $M_p$ n'est pas premier pour $p = \{67, 257\}$, mais l'est pour $p = \{61, 89, 107\}$.\bigbreak
 
     3. On décompose $M_{41}$ et $M_{47}$ en facteurs premiers.\bigbreak
 
@@ -374,7 +374,7 @@
 
     \section{Algorithmes d'exponentiation}
     \subsection{Naïf itératif et naïf récursif}
-    L'objectif est ici de promgramme un algorithme d'exponentiation, de manière naïve. D'abord de façon itérative, puis récursive.
+    L'objectif est ici de programmer un algorithme d'exponentiation, de manière naïve. D'abord de façon itérative, puis récursive.
 
     \lstinputlisting[language=Python, firstline=13, lastline=17]{sourceCode.py}
 
@@ -442,15 +442,35 @@
 
     \subsection{Génération de clés RSA}
     Pour la génération des clés, on définit la fonction \texttt{cleRSA()}. Cette dernière fait appel à différentes fonction pour définir les nombres $p$, $q$, $e$, et calculer $d$.
+    L'entier m entré en paramètres correspond au nombre de bits voulus pour le module N délivré.
 
     \lstinputlisting[language=Python, firstline=71, lastline=102]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=243, lastline=247]{sourceCode.py}
+
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray}
+        \texttt{In}
+        & 
+        \texttt{cleRSA(100)}
+        \\
+        \hline
+        \texttt{Out}
+        &
+        \texttt{\{'e': 803351392450707098125985652193,\newline
+        'N': 964641583517075772340892343569,\newline
+        'd': 438124538692355916464014427557\}}
+        \\
+        \hline
+    \end{tabularx}
+    \bigbreak
 
     \subsection{Fonctions de chiffrement et déchiffrement RSA}
     Ces fonction sont très simples: il suffit de parcourir la liste d'entier fournie en paramètre. Pour chaque entier, on l'éléve à la puissance voulue modulo $N$ ($e$ pour crypter, $d$ pour décrypter).
 
-    \lstinputlisting[language=Python, firstline=237, lastline=241]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=237, lastline=238]{sourceCode.py}
 
-    \lstinputlisting[language=Python, firstline=243, lastline=247]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=240, lastline=241]{sourceCode.py}
 
     Ces fonctions retournent une nouvelle liste d'entier qui peut être décodée par la fonction \texttt{alphabteise()}.
 
@@ -473,7 +493,7 @@
     On cherche une écriture du type $LN = R^2 - S^2$ où $L,R,S$ sont des entiers positifs tels que $L$ et $S$ petits.
     Si cette écriture existe, on peut trouver les facteurs $p$ et $q$ (non triviaux) en calculant $pgcd(N,R-S)$ et $ pgcd(N,R+S)$.
 
-    \lstinputlisting[language=Python, firstline=121, lastline=137]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=151, lastline=167]{sourceCode.py}
 
     Pour des clés RSA relativement petites, on trouve rapidement la factorisation comme le montre l'exemple ci-dessous avec une clé RSA de 50 bits. \bigbreak
 
@@ -516,7 +536,7 @@
     Le programme suivant tire aléatoirement $l$ valeurs (donné en paramètres) de $a$, 
     si le test de Fermat échoue alors $n$ est composé, et s'il réussit alors $n$ est premier ou de Carmichaël.
 
-    \lstinputlisting[language=Python, firstline=139, lastline=144]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=169, lastline=174]{sourceCode.py}
 
     On choisit aléatoirement $l$ valeurs de $a$, si le test de Fermat échoue sur une de ces valeurs de $a$ alors
     $n$ est composé. Pour un nombre de Carmichaël $n$, plus on choisit un $l$ élevé, plus on a de chance que le test
@@ -559,7 +579,7 @@
 
     On améliore le test avec le critère de Miller-Rabin.
 
-    \lstinputlisting[language=Python, firstline=146, lastline=166]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=176, lastline=196]{sourceCode.py}
 
     Cette fois-ci 561 ne passe pas le test de Miller-Rabin : \bigbreak
 
@@ -602,6 +622,6 @@
     \end{tabularx}
     \bigbreak
 
-    Pour 5 valeurs de $a$, nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin.
+    Pour 5 valeurs de $a$, nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin, nous sommes obligés de tuer le kernel Sage au bout de plusieurs minutes.
 
 \end{document}
