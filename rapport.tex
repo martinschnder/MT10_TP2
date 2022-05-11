@@ -440,6 +440,16 @@
 
     Dans chaque fonction, certaines rectifications sont nécéssaires pour assurer la bijectivité de l'encodage et l'intégrité du message codé. Par exemple, nous avons définit notre propre fonctioon \texttt{toBin()}, plus sûre que la fonction \texttt{bin()} de la librairie Python. 
 
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray} \texttt{In} & \texttt{coded = numerise\_safe("Que j’aime à faire connaître un nombre utile aux sages ...", 1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{alphabetise\_safe(coded, 1024)} \\
+        \hline
+        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile aux sages ...'} \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
     \subsection{Génération de clés RSA}
     Pour la génération des clés, on définit la fonction \texttt{cleRSA()}. Cette dernière fait appel à différentes fonction pour définir les nombres $p$, $q$, $e$, et calculer $d$.
 
@@ -454,6 +464,19 @@
 
     Ces fonctions retournent une nouvelle liste d'entier qui peut être décodée par la fonction \texttt{alphabteise()}.
 
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(512)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{num = numerise\_safe("Que j’aime à faire connaître un nombre utile aux sages ...", A["N"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{encoded = encode\_rsa(num, A["e"], A["N"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{decoded = decode\_rsa(encoded, A["d"], A["N"])", A["N"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{print(alphabetise\_safe(decoded, A["N"]))} \\
+        \hline
+        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile aux sages ...'} \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
     \subsection{Signature avec RSA}
     Les fonctions suivantes permettent à la fois de crypter et de décryper le message passé en argument. 
     Il faut donc indiquer quels argument sont fournis (par exemple $e_a$ ou $d_b$) pour savoir s'il s'agit d'un cryptage ou d'un décryptage.
@@ -461,12 +484,38 @@
 
     \lstinputlisting[language=Python, firstline=104, lastline=122]{sourceCode.py}
 
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{B = cleRSA(1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{(m2c, s2c) = protocole1(message = "Salut comment vas-tu ?", signature = "VoiciLaSignatureDAlice", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{(m1, s1) = protocole1(message = m2c, signature = s2c, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"])} \\
+        \hline
+        \texttt{Out} & \texttt{Message et signature cryptés} \\
+        \texttt{Out} & \texttt{Message et signature décryptés} \\
+        \texttt{Out} & \texttt{Salut comment vas-tu ? VoiciLaSignatureDAlice} \\
+        \hline
+    \end{tabularx}
+    \bigbreak
+
     \subsubsection{Protocole 2}
 
     \lstinputlisting[language=Python, firstline=124, lastline=149]{sourceCode.py}
 
-    Dans le second protocole, il est important de comparer $N_a$ et $N_b$. En effet, le resultat du premier codage par le module $N_1$ sera une liste d'entiers compris entre 0 et $N_1$. Or ces entiers doivent être inférieurs à $N_2$ pour être encryptés une seconde fois. Il faut donc chiffrer en premier avec le plus petit module.
+    \begin{tabularx}{12cm}{|p{0.60cm}|X|}
+        \hline
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{B = cleRSA(1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{crypted = protocole2("Salut, comment vas-tu ?", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{print(protocole2(crypted, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"]))} \\
+        \hline
+        \texttt{Out} & \texttt{Salut, comment vas-tu ?} \\
+        \hline
+    \end{tabularx}
+    \bigbreak
 
+    Dans le second protocole, il est important de comparer $N_a$ et $N_b$. En effet, le resultat du premier codage par le module $N_1$ sera une liste d'entiers compris entre 0 et $N_1$. Or ces entiers doivent être inférieurs à $N_2$ pour être encryptés une seconde fois. Il faut donc chiffrer en premier avec le plus petit module.
+    On ne prends pas en considération le cas $N_A=N_B$ car ce dernier est très peu probable, et serait problématique.
 
     \section{Factorisation de clefs RSA}
     Pour chercher une factorisation d'une clé RSA, le programme suivant suit la méthode de Fermat modifiée pour factoriser $N = pq$.
