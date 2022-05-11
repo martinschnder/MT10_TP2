@@ -129,7 +129,7 @@ def protocole2(message, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db = 0):
         if da and eb:
             m1c = numerise_safe(message, 3 * Nc)
             m2c = encode_rsa(m1c, eb, Nb)
-            m3c = encode_rsa(m2c, da, Nb)
+            m3c = encode_rsa(m2c, da, Na)
             return m3c
         if db and ea:
             m2c = decode_rsa(message, ea, Na)
@@ -139,7 +139,7 @@ def protocole2(message, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db = 0):
     if Na < Nb:
         if da and eb:
             m1c = numerise_safe(message, 3 * Nc)
-            m2c = encode_rsa(m1c, da, Nb)
+            m2c = encode_rsa(m1c, da, Na)
             m3c = encode_rsa(m2c, eb, Nb)
             return m3c
         if db and ea:
@@ -193,7 +193,11 @@ def testPrimaliteMillerRabin(n, l):
                 break               
         else:
             return False            
-    return True  
+    return True
+
+for n in range(10):
+    if (not is_prime(pow(2, 2^n) + 1)):
+        print(n, pow(2, 2^n ) + 1)
 
 
 mersenne=[]
@@ -229,3 +233,15 @@ def dicho_iteratif(x, n):
             x = x*x
             n = (n-1)/2
     return y
+
+def encode_rsa(message, e, N):
+    result = []
+    for digit in message:
+        result.append(power_mod(int(digit), int(e), int(N)))
+    return result
+
+def decode_rsa(cipher, d, N):
+    result = []
+    for digit in cipher:
+        result.append(power_mod(digit, int(d), int(N)))
+    return result

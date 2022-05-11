@@ -216,6 +216,12 @@
     \end{center}
     Comme annoncé par le théorème des nombres premiers, la suite $u_n$ semble tendre vers $1$.
     \bigbreak
+    4. Traçons $\pi(n)$ et $Li(n)$ :
+    \begin{center}
+        \includegraphics[scale=0.5]{Ressources/2022-05-10-10:43:46-screenshot.png}
+        \captionof{figure}{}
+    \end{center}
+    On remarque que la fonction $Li$ semble être une très bonne approximation de $\pi$.
 
     \subsection{Nombres de Fermat}
     A l'aide d'une simple boucle, vérifions la conjecture de Fermat pour n allant de 1 à 9.
@@ -268,11 +274,11 @@
     \bigbreak
     On forme la liste des nombres de Mersenne correspondants.
 
-    \lstinputlisting[language=Python, firstline=199, lastline=201]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=203, lastline=205]{sourceCode.py}
 
     2. Parmi la liste précédente, on affiche seulement les valeurs de $p$ pour lesquelles $M_p$ est premier :
 
-    \lstinputlisting[language=Python, firstline=203, lastline=205]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=207, lastline=209]{sourceCode.py}
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
@@ -318,7 +324,7 @@
     Euler s'est donc bien trompé, $M_{41}$ et $M_{47}$ ne sont pas premiers.\bigbreak
 
     4. Pour les nombres de Mersenne $M_p$ premiers inférieurs ou égaux à 257, on vérifie que $n = 2^{p-1}M_p$ est parfait grâce aux fonctions suivantes.
-    \lstinputlisting[language=Python, firstline=208, lastline=219]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=212, lastline=223]{sourceCode.py}
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
@@ -380,7 +386,7 @@
 
     \lstinputlisting[language=Python, firstline=23, lastline=28]{sourceCode.py}
 
-    \lstinputlisting[language=Python, firstline=221, lastline=231]{sourceCode.py}
+    \lstinputlisting[language=Python, firstline=225, lastline=235]{sourceCode.py}
 
     \subsection{Algorithme d'exponentiation modulaire}
     On adapte l'algorithme récursif prédécent pour calculer $x^n [N]$.
@@ -419,7 +425,7 @@
     \section{Cryptosystème RSA}
     \subsection{Codage et décodage d'un message}
     La permière étape est de définir deux méthodes capables de traduire un message alphabétique en une suite d'entiers compris entre $0$ et $N-1$ (N étant le module de notre clé RSA).
-    Pour cela, on crée la fonction \texttt{numerise()} qui convertit la chaîne alphabétique en une chaine binaire grâce au codage ASCII. Un caractère étant codé sur un octet, cette chaîne fait 8 fois la longuer de la chaîne initiale.
+    Pour cela, on crée la fonction \texttt{numerise()} qui convertit la chaîne alphabétique en une chaine binaire grâce au codage ASCII. Un caractère étant codé sur un octet, cette chaîne fait 8 fois la longueur de la chaîne initiale.
     Il s'agit ensuite de diviser cette chaine en "paquets" de bits dont la taille est à adapter en fonction de $N$.
     Pour que la valeurs des paquets ne dépasse pas $N-1$, la taille de ces dernier ne peut pas dépasser $ln(N)/ln(2)$. Pour un soucis d'intégrité de la transformation, on va chercher la taille la plus grande, inférieur à $ln(N)/ln(2)$, et qui divise la longueur de la chaine binaire obtenue.
     Ainsi, tous les paquets auront la même taille. On utilise pour cela la fonction \texttt{chooseSize()} qui renvoie la taille idéale des paquets.
@@ -440,10 +446,27 @@
     \lstinputlisting[language=Python, firstline=71, lastline=102]{sourceCode.py}
 
     \subsection{Fonctions de chiffrement et déchiffrement RSA}
+    Ces fonction sont très simples: il suffit de parcourir la liste d'entier fournie en paramètre. Pour chaque entier, on l'éléve à la puissance voulue modulo $N$ ($e$ pour crypter, $d$ pour décrypter).
+
+    \lstinputlisting[language=Python, firstline=237, lastline=241]{sourceCode.py}
+
+    \lstinputlisting[language=Python, firstline=243, lastline=247]{sourceCode.py}
+
+    Ces fonctions retournent une nouvelle liste d'entier qui peut être décodée par la fonction \texttt{alphabteise()}.
 
     \subsection{Signature avec RSA}
+    Les fonctions suivantes permettent à la fois de crypter et de décryper le message passé en argument. 
+    Il faut donc indiquer quels argument sont fournis (par exemple $e_a$ ou $d_b$) pour savoir s'il s'agit d'un cryptage ou d'un décryptage.
     \subsubsection{Protocole 1}
+
+    \lstinputlisting[language=Python, firstline=104, lastline=122]{sourceCode.py}
+
     \subsubsection{Protocole 2}
+
+    \lstinputlisting[language=Python, firstline=124, lastline=149]{sourceCode.py}
+
+    Dans le second protocole, il est important de comparer $N_a$ et $N_b$. En effet, le resultat du premier codage par le module $N_1$ sera une liste d'entiers compris entre 0 et $N_1$. Or ces entiers doivent être inférieurs à $N_2$ pour être encryptés une seconde fois. Il faut donc chiffrer en premier avec le plus petit module.
+
 
     \section{Factorisation de clefs RSA}
     Pour chercher une factorisation d'une clé RSA, le programme suivant suit la méthode de Fermat modifiée pour factoriser $N = pq$.
