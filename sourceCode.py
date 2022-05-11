@@ -235,13 +235,13 @@ def dicho_iteratif(x, n):
     return y
 
 def encode_rsa(message, e, N):
-    result = []
-    for digit in message:
-        result.append(power_mod(int(digit), int(e), int(N)))
-    return result
+    return map(lambda x: power_mod(int(x), int(e), int(N)), message)
 
 def decode_rsa(cipher, d, N):
-    result = []
-    for digit in cipher:
-        result.append(power_mod(digit, int(d), int(N)))
-    return result
+    return list(map(lambda x: power_mod(x, int(d), int(N)), cipher))
+
+def randPremier(start, end):
+    while 1:
+        nombre = randint(start, end)
+        if is_prime(nombre) : 
+            return nombre
