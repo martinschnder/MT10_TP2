@@ -45,7 +45,7 @@
 
     \section{Préliminaire : \texttt{SageMath} et les nombres entiers}
     \textbf{Division euclidienne :}
-    On utilise \texttt{divmod(x,y)} pour la division euclidienne de x par y, qui renvoie un couple $(div, mod)$ tel que :
+    On utilise \texttt{divmod(x,y)} pour calculer la division euclidienne de x par y, qui renvoie un couple $(div, mod)$ tel que :
     \[div*y + mod = x\]
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
@@ -65,7 +65,7 @@
     \bigbreak\bigbreak
 
     \textbf{Algorithme d'Euclide :}
-    On utilise \texttt{gcd(a,b)} pour l'algorithme d'Euclide, qui renvoie le plus grand diviseur commun (PGCD) de a et b. \bigbreak
+    On utilise \texttt{gcd(a,b)} pour calculer l'algorithme d'Euclide, qui renvoie le plus grand diviseur commun (PGCD) de a et b. \bigbreak
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
@@ -84,7 +84,7 @@
     \bigbreak\bigbreak
 
     \textbf{Algorithme d'Euclide étendu :}
-    On utilise \texttt{xgcd(a,b)} pour l'algorithme d'Euclide étendu de a et b, qui renvoie un triple $(g, s, t)$ tel que :
+    On utilise \texttt{xgcd(a,b)} pour calculer l'algorithme d'Euclide étendu de a et b, qui renvoie un triple $(g, s, t)$ tel que :
     \[g = s*a + t*b = PGCD(a,b)\]
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
@@ -177,7 +177,7 @@
     \end{tabularx}
     \bigbreak
 
-    On utilise \texttt{prime\_pi(x)} qui compte combien de nombres premiers sont inférieurs où égaux à \texttt{x}. \bigbreak
+    On utilise \texttt{prime\_pi(x)} qui compte combien de nombres premiers sont inférieurs ou égaux à \texttt{x}. \bigbreak
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
@@ -239,7 +239,7 @@
     \end{tabularx}
     \bigbreak
 
-    On trouve alors que celle-ci est vérifiée jusquà 4 mais à partir de $n=5$, $2^{(2^n)}+1$ n'est pas premier.
+    On trouve alors que celle-ci est vérifiée jusquà $n = 4$ mais à partir de $n=5$, $2^{(2^n)}+1$ n'est pas premier.
 
     \subsection{Nombres de Mersenne}
     1. La liste des nombres premiers inférieurs ou égaux à 257 est la suivante, il y en a 55.\bigbreak
@@ -361,14 +361,14 @@
 
     \subsection{Un test de primalité pour les nombres de Mersenne}
 
-    Le théorème de Lucas permet de définir un test de primalité sur les nombre de Mersenne.
-    Si on entre un entier $s$, l'algorithme retourne la primalite du nombre $M(s)$ soit $2^s -1$.
+    Le théorème de Lucas permet de définir un test de primalité sur les nombres de Mersenne.
+    Si on entre un entier $s$, l'algorithme retourne la primalité du nombre $M(s)$ soit $2^s -1$.
 
     \lstinputlisting[language=Python, firstline=1, lastline=11]{sourceCode.py}
 
     Utilisons cet algorithme pour trouver le plus grand nombre de Mersenne premier possible en moins de 5 minutes:
 
-    - En utilisant l'algorithme de Lucas, on peut trouve au maximum que $M(31)$ est premier (avant de tuer le kernel Sage).
+    - En utilisant l'algorithme de Lucas, on peut trouve au maximum que $M(31)$ est premier (avant de tuer le kernel \texttt{Sage}).
 
     - En utilisant la fonction SageMath \texttt{is\_prime()}, on trouve au maximum que $M(3217)$ est premier.
 
@@ -380,6 +380,8 @@
 
     \lstinputlisting[language=Python, firstline=19, lastline=21]{sourceCode.py}
 
+    Ces algorithmes naïfs ont ici une complexité de $O(n)$ car on effectue une boucle \texttt{for} sur les $n$ chiffres inférieurs à $n$.
+
     \subsection{Dichotomique itératif et dichotomique récursif}
 
     On peut largement optimiser ces algorithmes en utilisant \- les formules dichotomiques : 
@@ -387,6 +389,8 @@
     \lstinputlisting[language=Python, firstline=23, lastline=28]{sourceCode.py}
 
     \lstinputlisting[language=Python, firstline=225, lastline=235]{sourceCode.py}
+
+    Ces algorithmes dichotomiques ont ici une complexité de $O(\ln n)$ car on divise par deux le nombre de recherches avec le modulo 2.
 
     \subsection{Algorithme d'exponentiation modulaire}
     On adapte l'algorithme récursif prédécent pour calculer $x^n [N]$.
@@ -422,12 +426,14 @@
     \end{tabularx}
     \bigbreak
 
+    L'algorithme d'exponentiation modulaire a une complexité de $O(\ln (\ln N)^2)$, ce qui rend cet algorithme beaucoup plus efficace par rapport aux deux types d'algorithmes précédents.
+
     \section{Cryptosystème RSA}
     \subsection{Codage et décodage d'un message}
     La permière étape est de définir deux méthodes capables de traduire un message alphabétique en une suite d'entiers compris entre $0$ et $N-1$ (N étant le module de notre clé RSA).
     Pour cela, on crée la fonction \texttt{numerise()} qui convertit la chaîne alphabétique en une chaine binaire grâce au codage ASCII. Un caractère étant codé sur un octet, cette chaîne fait 8 fois la longueur de la chaîne initiale.
     Il s'agit ensuite de diviser cette chaine en "paquets" de bits dont la taille est à adapter en fonction de $N$.
-    Pour que la valeurs des paquets ne dépasse pas $N-1$, la taille de ces dernier ne peut pas dépasser $ln(N)/ln(2)$. Pour un soucis d'intégrité de la transformation, on va chercher la taille la plus grande, inférieur à $ln(N)/ln(2)$, et qui divise la longueur de la chaine binaire obtenue.
+    Pour que la valeurs des paquets ne dépasse pas $N-1$, la taille de ces derniers ne peut pas dépasser $\ln N/ \ln 2$. Pour un soucis d'intégrité de la transformation, on va chercher la taille la plus grande, inférieure à $\ln N/ \ln 2$, et qui divise la longueur de la chaine binaire obtenue.
     Ainsi, tous les paquets auront la même taille. On utilise pour cela la fonction \texttt{chooseSize()} qui renvoie la taille idéale des paquets.
     Une fois la chaine de bits divisée, il suffit de retraduire ces paquets de bits en entier (qui par construction seront inférieurs à $N-1$).
     La fonction retourne alors un object \texttt{list} contenant les entiers recherchés.
@@ -440,12 +446,16 @@
 
     Dans chaque fonction, certaines rectifications sont nécéssaires pour assurer la bijectivité de l'encodage et l'intégrité du message codé. Par exemple, nous avons définit notre propre fonctioon \texttt{toBin()}, plus sûre que la fonction \texttt{bin()} de la librairie Python. 
 
+    \lstinputlisting[language=Python, firstline=249, lastline=253]{sourceCode.py}
+
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
-        \rowcolor{gray} \texttt{In} & \texttt{coded = numerise\_safe("Que j’aime à faire connaître un nombre utile aux sages ...", 1024)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{alphabetise\_safe(coded, 1024)} \\
+        \rowcolor{gray} \texttt{In} & \texttt{coded = numerise("Que j’aime à faire connaître un nombre} \newline
+        \texttt{utile aux sages ...", 1024)} \newline
+        \texttt{alphabetise(coded, 1024)} \\
         \hline
-        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile aux sages ...'} \\
+        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile} \newline
+        \texttt{aux sages ...'} \\
         \hline
     \end{tabularx}
     \bigbreak
@@ -453,6 +463,8 @@
     \subsection{Génération de clés RSA}
     Pour la génération des clés, on définit la fonction \texttt{cleRSA()}. Cette dernière fait appel à différentes fonction pour définir les nombres $p$, $q$, $e$, et calculer $d$.
     L'entier m entré en paramètres correspond au nombre de bits voulus pour le module N délivré.
+
+    Les entiers p et q sont choisit selon les recommandations de l'ANSSI, ils sont donc des nombres premiers compris entre $\frac{1}{\sqrt{2}}2^{m/2}$ et $2^{m/2}$.
 
     \lstinputlisting[language=Python, firstline=71, lastline=102]{sourceCode.py}
     \lstinputlisting[language=Python, firstline=243, lastline=247]{sourceCode.py}
@@ -486,19 +498,21 @@
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
-        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(512)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{num = numerise\_safe("Que j’aime à faire connaître un nombre utile aux sages ...", A["N"])} \\
-        \rowcolor{gray} \texttt{In} & \texttt{encoded = encode\_rsa(num, A["e"], A["N"])} \\
-        \rowcolor{gray} \texttt{In} & \texttt{decoded = decode\_rsa(encoded, A["d"], A["N"])", A["N"])} \\
-        \rowcolor{gray} \texttt{In} & \texttt{print(alphabetise\_safe(decoded, A["N"]))} \\
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(512)} \newline
+        \texttt{num = numerise("Que j’aime à faire connaître un nombre}\newline
+        \texttt{utile aux sages ...", A["N"])} \newline
+        \texttt{encoded = encode\_rsa(num, A["e"], A["N"])} \newline
+        \texttt{decoded = decode\_rsa(encoded, A["d"], A["N"])", A["N"])} \newline
+        \texttt{print(alphabetise(decoded, A["N"]))} \\
         \hline
-        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile aux sages ...'} \\
+        \texttt{Out} & \texttt{'Que j’aime à faire connaître un nombre utile} \newline
+        \texttt{aux sages ...'} \\
         \hline
     \end{tabularx}
     \bigbreak
 
     \subsection{Signature avec RSA}
-    Les fonctions suivantes permettent à la fois de crypter et de décryper le message passé en argument. 
+    Les fonctions suivantes permettent à la fois de crypter et de décryper le message passé en argument.
     Il faut donc indiquer quels argument sont fournis (par exemple $e_a$ ou $d_b$) pour savoir s'il s'agit d'un cryptage ou d'un décryptage.
     \subsubsection{Protocole 1}
 
@@ -506,14 +520,14 @@
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
-        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{B = cleRSA(1024)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{(m2c, s2c) = protocole1(message = "Salut comment vas-tu ?", signature = "VoiciLaSignatureDAlice", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \\
-        \rowcolor{gray} \texttt{In} & \texttt{(m1, s1) = protocole1(message = m2c, signature = s2c, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"])} \\
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \newline
+        \texttt{B = cleRSA(1024)} \newline
+        \texttt{(m2c, s2c) = protocole1(message = "Salut comment vas-tu ?", signature = "VoiciLaSignatureDAlice", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \newline
+        \texttt{(m1, s1) = protocole1(message = m2c, signature = s2c, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"])} \\
         \hline
-        \texttt{Out} & \texttt{Message et signature cryptés} \\
-        \texttt{Out} & \texttt{Message et signature décryptés} \\
-        \texttt{Out} & \texttt{Salut comment vas-tu ? VoiciLaSignatureDAlice} \\
+        \texttt{Out} & \texttt{Message et signature cryptés} \newline
+        \texttt{Message et signature décryptés} \newline
+        \texttt{Salut comment vas-tu ? VoiciLaSignatureDAlice} \\
         \hline
     \end{tabularx}
     \bigbreak
@@ -524,18 +538,18 @@
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
         \hline
-        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{B = cleRSA(1024)} \\
-        \rowcolor{gray} \texttt{In} & \texttt{crypted = protocole2("Salut, comment vas-tu ?", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \\
-        \rowcolor{gray} \texttt{In} & \texttt{print(protocole2(crypted, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"]))} \\
+        \rowcolor{gray} \texttt{In} & \texttt{A = cleRSA(1024)} \newline
+        \texttt{B = cleRSA(1024)} \newline
+        \texttt{crypted = protocole2("Salut, comment vas-tu ?", Na = A["N"], Nb = B["N"], da = A["d"], eb = B["e"])} \newline
+        \texttt{print(protocole2(crypted, Na = A["N"], Nb = B["N"], db = B["d"], ea = A["e"]))} \\
         \hline
         \texttt{Out} & \texttt{Salut, comment vas-tu ?} \\
         \hline
     \end{tabularx}
     \bigbreak
 
-    Dans le second protocole, il est important de comparer $N_a$ et $N_b$. En effet, le resultat du premier codage par le module $N_1$ sera une liste d'entiers compris entre 0 et $N_1$. Or ces entiers doivent être inférieurs à $N_2$ pour être encryptés une seconde fois. Il faut donc chiffrer en premier avec le plus petit module.
-    On ne prends pas en considération le cas $N_A=N_B$ car ce dernier est très peu probable, et serait problématique.
+    Dans le second protocole, il est important de comparer $N_A$ et $N_B$. En effet, le resultat du premier codage par le module $N_A$ sera une liste d'entiers compris entre 0 et $N_A$. Or ces entiers doivent être inférieurs à $N_B$ pour être encryptés une seconde fois. Il faut donc chiffrer en premier avec le plus petit module.
+    On ne prends pas en considération le cas $N_A=N_B$ car ce dernier est très peu probable, en effet, la probabilité d'avoir deux modules $N$ égaux est extrèmement faible si on choisit des modules très grands comme recommandé.
 
     \section{Factorisation de clefs RSA}
     Pour chercher une factorisation d'une clé RSA, le programme suivant suit la méthode de Fermat modifiée pour factoriser $N = pq$.
@@ -587,10 +601,6 @@
 
     \lstinputlisting[language=Python, firstline=169, lastline=174]{sourceCode.py}
 
-    On choisit aléatoirement $l$ valeurs de $a$, si le test de Fermat échoue sur une de ces valeurs de $a$ alors
-    $n$ est composé. Pour un nombre de Carmichaël $n$, plus on choisit un $l$ élevé, plus on a de chance que le test
-    de Fermat échoue et nous renvoie que $n$ est composé, car il suffit que le test échoue une seule fois sur les $l$ 
-    valeurs de $a$. \bigbreak
     Par exemple : \bigbreak
 
     \begin{tabularx}{12cm}{|p{0.60cm}|X|}
@@ -619,6 +629,11 @@
         \hline
     \end{tabularx}
     \bigbreak
+
+    On choisit aléatoirement $l$ valeurs de $a$, si le test de Fermat échoue sur une de ces valeurs de $a$ alors
+    $n$ est composé. Pour un nombre de Carmichaël $n$, plus on choisit un $l$ élevé, plus on a de chance que le test
+    de Fermat échoue et nous renvoie que $n$ est composé, car il suffit que le test échoue une seule fois sur les $l$ 
+    valeurs de $a$. \bigbreak
 
     Le plus petit entier composé qui passe le test de Fermat est 561, le plus petit entier de Carmichaël.
     Pour 2 valeurs de $a$, 561 passe presque immédiatement le test de Fermat mais pour 5 valeurs de $a$, 
@@ -671,6 +686,6 @@
     \end{tabularx}
     \bigbreak
 
-    Pour 5 valeurs de $a$, nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin, nous sommes obligés de tuer le kernel Sage au bout de plusieurs minutes.
+    Pour 5 valeurs de $a$, nous n'avons pas trouvé de nombre de Carmichaël qui passe le test de Miller-Rabin, nous sommes obligés de tuer le kernel \texttt{Sage} au bout de plusieurs minutes.
 
 \end{document}

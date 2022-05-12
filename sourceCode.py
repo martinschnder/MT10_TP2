@@ -39,7 +39,7 @@ def chooseSize(l, N):
         if l * 8 % size == 0:
             return size
 
-def numerise_safe(message, N):
+def numerise(message, N):
     result = []
     binaryMessage = BinaryStrings().encoding(message)
     size = chooseSize(len(message), N)
@@ -57,7 +57,7 @@ def toBin(n, size):
         res = (size-len(res))*'0' + res
     return res
 
-def alphabetise_safe(message, N) :
+def alphabetise(message, N) :
     result = []
     size = message.pop(-1)
     for digit in message:
@@ -106,8 +106,8 @@ def protocole1(message, signature, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db 
         print("Veuillez rentrez une valeur plus petite pour Nc")
         return 1
     if da and eb:
-        m1c = numerise_safe(message, 3 * Nc)
-        s1c = numerise_safe(signature, 3 * Nc)
+        m1c = numerise(message, 3 * Nc)
+        s1c = numerise(signature, 3 * Nc)
         m2c = encode_rsa(m1c, eb, Nb)
         s2c = encode_rsa(s1c, da, Na)
         print("Message et signature cryptes")
@@ -115,8 +115,8 @@ def protocole1(message, signature, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db 
     if db and ea:
         m1c = decode_rsa(message, db, Nb)
         s1c = decode_rsa(signature, ea, Na)
-        m1 = alphabetise_safe(m1c, 3 * Nc)
-        s1 = alphabetise_safe(s1c, 3 * Nc)
+        m1 = alphabetise(m1c, 3 * Nc)
+        s1 = alphabetise(s1c, 3 * Nc)
         print("Message et signature decryptes")
         print(m1, s1)
         return(m1, s1)
@@ -127,25 +127,25 @@ def protocole2(message, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db = 0):
         return 1
     if Na > Nb:
         if da and eb:
-            m1c = numerise_safe(message, 3 * Nc)
+            m1c = numerise(message, 3 * Nc)
             m2c = encode_rsa(m1c, eb, Nb)
             m3c = encode_rsa(m2c, da, Na)
             return m3c
         if db and ea:
             m2c = decode_rsa(message, ea, Na)
             m1c = decode_rsa(m2c, db, Nb)
-            m1 = alphabetise_safe(m1c, 3* Nc)
+            m1 = alphabetise(m1c, 3* Nc)
             return m1
     if Na < Nb:
         if da and eb:
-            m1c = numerise_safe(message, 3 * Nc)
+            m1c = numerise(message, 3 * Nc)
             m2c = encode_rsa(m1c, da, Na)
             m3c = encode_rsa(m2c, eb, Nb)
             return m3c
         if db and ea:
             m2c = decode_rsa(message, db, Nb)
             m1c = decode_rsa(m2c, ea, Na)
-            m1 = alphabetise_safe(m1c, 3* Nc)
+            m1 = alphabetise(m1c, 3* Nc)
             return m1
       
 def factorisationRSA (N):
@@ -245,3 +245,9 @@ def randPremier(start, end):
         nombre = randint(start, end)
         if is_prime(nombre) : 
             return nombre
+        
+def toBin(n, size):
+    res = bin(n)[2:]
+    if len(res) < size:
+        res = (size-len(res))*'0' + res
+    return res
