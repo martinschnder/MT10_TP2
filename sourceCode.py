@@ -144,7 +144,7 @@ def protocole2(message, Na, Nb, Nc = 256, ea = 0, eb = 0, da = 0, db = 0):
             return m3c
         if db and ea:
             m2c = decode_rsa(message, db, Nb)
-            m1c = decode_rsa(m1c, ea, Na)
+            m1c = decode_rsa(m2c, ea, Na)
             m1 = alphabetise_safe(m1c, 3* Nc)
             return m1
       
